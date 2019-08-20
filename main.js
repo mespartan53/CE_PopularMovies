@@ -7,8 +7,8 @@ const jumbotron = document.createElement('div');
 jumbotron.setAttribute('class', 'top jumbotron');
 
 const jumboPara = document.createElement('h1');
-jumboPara.setAttribute('class', 'jumboHeader');
-jumboPara.textContent = 'List of popular movies';
+jumboPara.setAttribute('class', 'jumboText');
+jumboPara.textContent = 'List of Current Popular Movies';
 
 container.appendChild(jumbotron);
 jumbotron.appendChild(jumboPara);
@@ -31,38 +31,44 @@ request.onload = function () {
 
 			//Container for each movie
 			const card = document.createElement('div');
-      		card.setAttribute('class', 'card');
-      		//card.setAttribute('background', 'black url(\"https://image.tmdb.org/t/p/w185_and_h278_bestv2/' + movieData[movie]['poster_path'] +'\") no-repeat fixed center');
+      card.setAttribute('class', 'card');
+      //card.setAttribute('background', 'black url(\"https://image.tmdb.org/t/p/w185_and_h278_bestv2/' + movieData[movie]['poster_path'] +'\") no-repeat fixed center');
 
-      		//Movie Title
-      		const h2 = document.createElement('h2');
-      		h2.setAttribute('class', 'MovieTitle container col-sm-12');
-      		h2.textContent = `${movieData[movie]['title']}`;
+      //Movie Title
+      const h2 = document.createElement('h2');
+      h2.setAttribute('class', 'MovieTitle');
+      //h2.textContent = `${movieData[movie]['title']}`;
 
-      		//poster image
-      		const img = document.createElement('img');
-      		img.setAttribute('class', 'MovieImg col-xs-6 img-rounded');
-      		img.setAttribute('src', 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/' + movieData[movie]['poster_path']);
-      		img.setAttribute('alt', movieData[movie]['title']);
+      //link a google search of the movie title
+      const link = document.createElement('a');
+      link.setAttribute('href', 'https://www.google.com/search?q=' + movieData[movie]['title']);
+      link.textContent = `${movieData[movie]['title']}`;
 
-      		//Overview paragraphs
-      		const p = document.createElement('p')
-      		p.setAttribute('class', 'MovieOverview col-xs-6');
-     		var str = movieData[movie]['overview'];
-     		p.textContent = str.substring(0, 100) + " ...";
+      //poster image
+      const img = document.createElement('img');
+      img.setAttribute('class', 'MovieImg col-xs-6 img-rounded');
+      img.setAttribute('src', 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/' + movieData[movie]['poster_path']);
+      img.setAttribute('alt', movieData[movie]['title']);
+
+      //Overview paragraphs
+      const p = document.createElement('p')
+      p.setAttribute('class', 'MovieOverview col-xs-6');
+     	var str = movieData[movie]['overview'];
+     	p.textContent = str.substring(0, 100) + " ...";
 
 
-      		container.appendChild(box);
-      		box.appendChild(card);
-      		card.appendChild(h2);
-      		card.appendChild(img);
-      		card.appendChild(p);
+      container.appendChild(box);
+      box.appendChild(card);
+      card.appendChild(h2);
+      h2.appendChild(link);
+      card.appendChild(img);
+      card.appendChild(p);
 		}
-	} else {
-  		const errorMessage = document.createElement('marquee');
-    	errorMessage.textContent = `Gah, it's not working!`;
-    	app.appendChild(errorMessage);
-	}
+  } else {
+  	const errorMessage = document.createElement('marquee');
+    errorMessage.textContent = `Gah, it's not working!`;
+    app.appendChild(errorMessage);
+  }
 }
 
 request.send();
